@@ -1,7 +1,9 @@
 # PyTorch Inference Service Example
 
 A small, layered example of serving a PyTorch image classifier behind FastAPI.
+
 Architecture: **Model–View–Presenter** (Passive View variant).
+
 Reference task: MNIST handwritten digit recognition — draw a digit, get the prediction.
 
 > This is an **example**, not a framework: there is no plugin system. Copy it and adapt the pieces listed under [Reusing this](#reusing-this).
@@ -10,11 +12,11 @@ Reference task: MNIST handwritten digit recognition — draw a digit, get the pr
 
 ```
 HTTP
- └─ app/api.py             route + request schema
-     └─ app/presenter.py   orchestrates decode → infer → render (no HTTP knowledge)
-         ├─ app/model.py   preprocessing + inference
+ └─ app/api.py                                           route + request schema
+     └─ app/presenter.py                                 orchestrates decode → infer → render (no HTTP knowledge)
+         ├─ app/model.py                                 preprocessing + inference
          │   └─ dl_model/model/structure/classifier.py   nn.Module
-         └─ app/view.py    passive view: shapes the JSON response
+         └─ app/view.py                                  passive view: shapes the JSON response
 ```
 
 Dependencies point inward. The presenter never touches HTTP or PyTorch; the view never decides anything, it only renders what the presenter tells it.
@@ -33,7 +35,7 @@ The trained checkpoint is included at `dl_model/checkpoints/mnist_classifier.pt`
 # Windows
 start.bat
 
-# or manually
+# or manually run:
 python -m uvicorn app.main:app --reload
 ```
 
