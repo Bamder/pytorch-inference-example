@@ -24,9 +24,7 @@ htmlcov/
 
 # ---- IDE / OS ----
 .idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/launch.json
+.vscode/
 .DS_Store
 Thumbs.db
 desktop.ini
