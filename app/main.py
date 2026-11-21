@@ -1,24 +1,27 @@
 """composition root：创建应用、加载 Model、挂载 View。"""
 
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from dl_model.model.structure.classifier import Classifier
 from app.api import router
+from app.config import (
+    API_PREFIX,
+    CHECKPOINT_PATH,
+    INPUT_RESOLUTION,
+    STATIC_DIR,
+    STATIC_MOUNT_NAME,
+)
 from app.model import RecognizerModel
 from app.presenter import PredictionPresenter
-
-STATIC = Path(__file__).parent / "static"
-CHECKPOINT = Path(__file__).parents[1] / "dl_model" / "checkpoints" / "mnist_classifier.pt"
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    model = RecognizerModel(Classifier((28, 28)))
-    model.load_checkpoint(CHECKPOINT)
+    model = RecognizerModel(Classifier(INPUT_RESOLUTION))
+    model.load_checkpoint(CHECKPOINT_PATH)
 
     app.state.presenter = PredictionPresenter(model=model)
     yield
@@ -26,5 +29,5 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(router, prefix="/api")
-app.mount("/", StaticFiles(directory=STATIC, html=True), name="static")
+app.include_router(router, prefix=API_PREFIX)
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name=STATIC_MOUNT_NAME)

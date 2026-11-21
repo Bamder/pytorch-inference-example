@@ -3,11 +3,20 @@ from typing import Any
 
 from fastapi.responses import JSONResponse
 
+from app.config import (
+    DETAIL_EMPTY_DRAWING,
+    DETAIL_INVALID_IMAGE,
+    STATUS_BAD_REQUEST,
+    STATUS_OK,
+    STATUS_UNPROCESSABLE_ENTITY,
+    TOP_K,
+)
+
 
 class JsonResponseView:
 
     def __init__(self):
-        self._status_code = 200
+        self._status_code = STATUS_OK
         self._body: dict[str, Any] = {}
 
     def show_result(self, digit: int, probabilities: list[float]) -> None:
@@ -18,20 +27,23 @@ class JsonResponseView:
             reverse=True
         )
 
-        self._status_code = 200
+        self._status_code = STATUS_OK
         self._body = {
             "digit": digit,
             "confidence": ranked[0][1],
-            "top3": [{"digit": index, "score": score} for index, score in ranked[:3]],
+            "top3": [
+                {"digit": index, "score": score}
+                for index, score in ranked[:TOP_K]
+            ],
         }
 
     def show_empty_canvas(self) -> None:
-        self._status_code = 422
-        self._body = {"detail": "empty drawing"}
+        self._status_code = STATUS_UNPROCESSABLE_ENTITY
+        self._body = {"detail": DETAIL_EMPTY_DRAWING}
 
     def show_invalid_alarm(self) -> None:
-        self._status_code = 400
-        self._body = {"detail": "invalid image"}
+        self._status_code = STATUS_BAD_REQUEST
+        self._body = {"detail": DETAIL_INVALID_IMAGE}
 
     # make data to json response
     def render(self) -> JSONResponse:

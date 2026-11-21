@@ -8,14 +8,8 @@ import torch
 from PIL import Image, UnidentifiedImageError
 from torch import nn
 
-from dl_model.model.structure.classifier import Classifier
+from app.config import BOX, INPUT_RESOLUTION, THRESHOLD
 
-ROOT = Path(__file__).resolve().parents[1]
-CHECKPOINT = ROOT / "dl_model" / "checkpoints" / "mnist_classifier.pt"
-
-SIZE = 28
-BOX = 20
-THRESHOLD = 50
 
 def _binarize(value: int) -> int:
     return 255 if value > THRESHOLD else 0
@@ -43,12 +37,12 @@ def to_tensor(image_bytes: bytes) -> torch.Tensor | None:
     digit = digit.resize((scaled_width, scaled_height), Image.Resampling.LANCZOS) 
 
     # paste cropped digit (rectangle) on a new canvas (square)
-    canvas = Image.new("L", (SIZE, SIZE), 0)
-    canvas.paste(digit, ((SIZE - scaled_width) // 2, (SIZE - scaled_height) // 2)) # center alignment
+    canvas = Image.new("L", INPUT_RESOLUTION, 0)
+    canvas.paste(digit, ((INPUT_RESOLUTION[0] - scaled_width) // 2, (INPUT_RESOLUTION[1] - scaled_height) // 2)) # center alignment
 
     # normalize the data range of pixels
     array = np.asarray(canvas, dtype=np.float32) / 255.0
-    return torch.from_numpy(array).reshape(1, 1, SIZE, SIZE)
+    return torch.from_numpy(array).reshape(1, 1, *INPUT_RESOLUTION)
 
 class RecognizerModel:
 

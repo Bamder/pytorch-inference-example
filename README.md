@@ -86,6 +86,7 @@ Training writes `dl_model/checkpoints/mnist_classifier.pt`.
 ```
 app/
   main.py        composition root: model, presenter, routes, static files
+  config.py      paths, preprocessing parameters, API and response constants
   api.py         FastAPI routes and request schema
   presenter.py   use-case orchestration
   model.py       preprocessing + inference
@@ -105,6 +106,7 @@ start.bat        Windows launcher
 |---|---|
 | Dataset / file format | `dl_model/model/scripts/data_loader.py` |
 | Model architecture | `dl_model/model/structure/classifier.py`, then `app/main.py` |
+| Paths, input size, tuning constants | `app/config.py` |
 | Input preprocessing | `to_tensor()` in `app/model.py` |
 | Output format | `JsonResponseView` in `app/view.py` |
 | UI | `app/static/` |
