@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handwritten Digit Recognition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="pad-panel">
+      <canvas id="pad" width="280" height="280"></canvas>
+    </div>
+
+    <div class="panel">
+      <div id="result">
+        <div id="digit">?</div>
+        <div id="detail">Draw a digit from 0 to 9 on the black canvas</div>
+      </div>
+
+      <div class="actions">
+        <button id="clear">Clear</button>
+        <button id="predict">Recognize</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

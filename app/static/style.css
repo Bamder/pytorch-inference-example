@@ -1,0 +1,161 @@
+:root {
+  --cream: #faf7f1;
+  --ink: #23201b;
+  --muted: #8c8578;
+  --line: #ddd6c9;
+  --board: #23201b;
+}
+
+body {
+  margin: 0;
+  padding: 32px;
+  min-height: 100vh;
+  min-height: 100svh;
+  box-sizing: border-box;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Default: canvas on the left, controls on the right */
+.app {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.pad-panel {
+  flex: 0 0 auto;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: transparent;
+}
+
+canvas {
+  display: block;
+  background: var(--board);
+  border-radius: 10px;
+  touch-action: none;
+  cursor: crosshair;
+  max-width: 100%;
+  height: auto;
+}
+
+.panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 11px 28px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--ink);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+#clear {
+  color: var(--muted);
+}
+
+#clear:hover {
+  color: var(--ink);
+}
+
+#predict {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+}
+
+#predict:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+#result {
+  width: 100%;
+  /* Fixed size: 72px digit + 10px gap + 63px detail (3 lines) + 20px padding + 1px border.
+     Keeping it fixed prevents the panel from resizing when the text changes. */
+  height: 166px;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#digit {
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+}
+
+#detail {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+}
+
+/* Mobile: stack canvas on top, controls below */
+@media (max-width: 719px) {
+  body {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .app {
+    flex-direction: column;
+    gap: 28px;
+    max-width: 420px;
+  }
+
+  .pad-panel {
+    max-width: 100%;
+  }
+
+  .panel {
+    width: 100%;
+  }
+}
