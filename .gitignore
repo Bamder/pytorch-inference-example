@@ -38,3 +38,6 @@ dl_model/datasets/data/
 runs/
 outputs/
 *.onnx
+
+# ---- Demo ----
+*demo.py

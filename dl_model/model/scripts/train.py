@@ -5,19 +5,16 @@ from torch import nn
 from pathlib import Path
 from tqdm import tqdm
 
-from dl_model.datasets.online_datasets import train_set
 from dl_model.model.scripts import data_loader
 from dl_model.model.structure.classifier import Classifier
+from dl_model.datasets.paths import (
+    TEST_IMAGES,
+    TEST_LABELS,
+    TRAIN_IMAGES,
+    TRAIN_LABELS,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / "datasets" / "data" / "MNIST" / "raw"
-
-PATH_TO_IMAGES = RAW / "train-images-idx3-ubyte"
-PATH_TO_LABELS = RAW / "train-labels-idx1-ubyte"
-
-PATH_TO_IMAGES_TEST = RAW / "t10k-images-idx3-ubyte"
-PATH_TO_LABELS_TEST = RAW / "t10k-labels-idx1-ubyte"
-
 CHECKPOINT = ROOT / "checkpoints" / "mnist_classifier.pt"
 
 
@@ -258,8 +255,8 @@ def run_with_argument(args: argparse.Namespace) -> dict:
 
     if args.mode == "full":
         trainer.train(
-            sample_path=PATH_TO_IMAGES,
-            label_path=PATH_TO_LABELS,
+            sample_path=TRAIN_IMAGES,
+            label_path=TRAIN_LABELS,
             batch_size=64,
             epochs=30,
             learning_rate=1e-3
@@ -276,8 +273,8 @@ def run_with_argument(args: argparse.Namespace) -> dict:
     )
 
     result = trainer.test(
-        sample_path=PATH_TO_IMAGES_TEST,
-        label_path=PATH_TO_LABELS_TEST
+        sample_path=TEST_IMAGES,
+        label_path=TEST_LABELS
     )
 
     return result

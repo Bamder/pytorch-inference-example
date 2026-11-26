@@ -39,14 +39,14 @@ start.bat
 python -m uvicorn app.main:app --reload
 ```
 
-Open <http://127.0.0.1:8000> and draw a digit.
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) and draw a digit.
 
 ## HTTP API
 
-| Method | Path | Description |
-|---|---|---|
-| GET | `/api/health` | `{"status": "ok"}` |
-| POST | `/api/predict` | Body: `{"image_base64": "data:image/png;base64,..."}` |
+| Method | Path             | Description                                             |
+| ------ | ---------------- | ------------------------------------------------------- |
+| GET    | `/api/health`  | `{"status": "ok"}`                                    |
+| POST   | `/api/predict` | Body: `{"image_base64": "data:image/png;base64,..."}` |
 
 Successful response:
 
@@ -102,17 +102,11 @@ start.bat        Windows launcher
 
 ## Reusing this
 
-| Want to change | Touch |
-|---|---|
-| Dataset / file format | `dl_model/model/scripts/data_loader.py` |
-| Model architecture | `dl_model/model/structure/classifier.py`, then `app/main.py` |
-| Paths, input size, tuning constants | `app/config.py` |
-| Input preprocessing | `to_tensor()` in `app/model.py` |
-| Output format | `JsonResponseView` in `app/view.py` |
-| UI | `app/static/` |
-
-## Limitations
-
-- Hard-coded for 1×28×28 grayscale input and 10 classes.
-- Two data paths: a hand-written IDX loader for training, torchvision for download/preview.
-- No tests in the repository yet.
+| Want to change                      | Touch                                                            |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| Dataset / file format               | `dl_model/model/scripts/data_loader.py`                        |
+| Model architecture                  | `dl_model/model/structure/classifier.py`, then `app/main.py` |
+| Paths, input size, tuning constants | `app/config.py`                                                |
+| Input preprocessing                 | `to_tensor()` in `app/model.py`                              |
+| Output format                       | `JsonResponseView` in `app/view.py`                          |
+| UI                                  | `app/static/`                                                  |
